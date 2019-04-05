@@ -48,7 +48,8 @@ ColonyInfo_GIS_duplicates_removed <- ColonyInfo_GIS %>%
 		ManagerCity = ManagerCity[1],
 		ManagerPhone = ManagerPhone[1],
 		ManagedAreaComments12 = ManagedAreaComments12[1]
-	)
+	) %>%
+	rename(ColonyIDNumber = ID_NUM)
 
 
 

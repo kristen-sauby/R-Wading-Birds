@@ -1,3 +1,7 @@
+ColonyInfo5Apr2019$Lat %<>% round(4)
+ColonyInfo5Apr2019$Long %<>% round(4)
+
+
 ColonyInfo <- ColonyInfo5Apr2019 %>% 
 	as.data.frame %>% 
 	arrange(Lat, Long, `ID NUM`) %>% 
@@ -16,6 +20,8 @@ ColonyInfo <- ColonyInfo5Apr2019 %>%
 		Comments = paste(unique(comments), collapse="; ")
 	)
 
+ColonyInfo %>% write.csv("ColonyInfo_duplicates_merged_5April2019.csv")
+
 ColonyInfo_wo_Duplicates <- ColonyInfo5Apr2019 %>% 
 	as.data.frame %>% 
 	arrange(Lat, Long) %>% 
@@ -23,7 +29,14 @@ ColonyInfo_wo_Duplicates <- ColonyInfo5Apr2019 %>%
 		duplicated(.[c("Lat","Long")]) | 
 			duplicated(.[c("Lat","Long")], 
 					 fromLast = TRUE)
-	), ]
+	), ] %>%
+	rename(ColonyIDNumber = `ID NUM`) %>%
+	rename(ColonyName = `Colony name`) %>%
+	rename(AtlasNumber = `Atlas# (red cells are duplicates)`) %>%
+	rename(OwnershipManagement = `ownership/management`) %>%
+	rename(Comments = comments)
+
+
 
 ColonyInfo %<>% rbind.fill(ColonyInfo_wo_Duplicates) %>% dplyr::select(-`...9`)
 
